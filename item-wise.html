@@ -90,8 +90,7 @@
             <button class="btn btn-secondary">Back to Dashboard</button>
             <button class="btn btn-success">Print</button>
             <button class="btn btn-success">WhatsApp</button>
-           <button class="btn btn-danger" onclick="downloadPdf()">Download Pdf</button>
-
+            <button class="btn btn-danger" onclick="downloadPdf()">Download Pdf</button>
             <button class="btn btn-warning">Send SMS</button>
         </div>
     </div>
@@ -110,8 +109,23 @@
             document.getElementById("totalPcs").innerText = totalPcs;
             document.getElementById("totalAmount").innerText = totalAmount;
         }
-        
-       
+
+        function downloadPdf() {
+            let tableRows = "";
+            document.querySelectorAll("#reportTable tbody tr").forEach(row => {
+                tableRows += `<tr>${row.innerHTML}</tr>`;
+            });
+
+            const totals = {
+                ctn: document.getElementById("totalCtn").innerText,
+                dzn: document.getElementById("totalDzn").innerText,
+                pcs: document.getElementById("totalPcs").innerText,
+                amount: document.getElementById("totalAmount").innerText
+            };
+
+            localStorage.setItem("itemReportData", JSON.stringify({ rows: tableRows, totals }));
+            window.open('item_printable_report.html', '_blank');
+        }
 
         document.addEventListener("DOMContentLoaded", calculateTotals);
     </script>
